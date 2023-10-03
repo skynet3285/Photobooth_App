@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "photo",
+    "slug": "photo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/etc/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/etc/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jerome1011.photo"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/etc/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.jerome1011.photo"
+    },
+    "web": {
+      "favicon": "./assets/etc/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ee473a8a-7cb4-4e83-871b-f3b114a8817c"
+      }
+    }
+  }
+}
