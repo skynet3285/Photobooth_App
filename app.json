@@ -3,6 +3,7 @@
     "name": "photo",
     "slug": "photo",
     "version": "1.0.0",
+    
     "orientation": "portrait",
     "icon": "./assets/etc/icon.png",
     "userInterfaceStyle": "light",
@@ -20,6 +21,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jerome1011.photo"
+      
     },
     "android": {
       "adaptiveIcon": {

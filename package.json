@@ -1,6 +1,7 @@
 {
   "name": "photo",
   "version": "1.0.0",
+  "proxy": "http://211.107.196.27:7878",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -11,6 +12,7 @@
   "dependencies": {
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
+    "axios": "^1.5.1",
     "expo": "~49.0.10",
     "expo-camera": "~13.4.4",
     "expo-constants": "~14.4.2",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import StartModal from './modals/startModal'
 import CameraModal from './modals/cameraModal'
@@ -28,6 +28,18 @@ export default function App() {
     setFrameModalVisible(false)
     setSelectModalVisible(true)
   }
+
+  // useEffect(() => {
+  //   fetch("http://211.107.196.27:7878").then(
+      
+  //     // response 객체의 json() 이용하여 json 데이터를 객체로 변화
+  //     res => res.json()
+  //   ).then(
+  //     // 데이터를 콘솔에 출력
+  //     data => console.log(data)
+      
+  //   ).catch(error => {console.log(error)})
+  // },[])
 
   return (
     <View>

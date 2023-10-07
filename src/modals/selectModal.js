@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, View, Text, Image, TouchableOpacity } from 'react-native';
 import ViewShot from 'react-native-view-shot'
@@ -15,7 +16,8 @@ const SelectModal = ({ selectModalVisible, imgs, currentImageIndex }) => {
     const [img6Selected, setIsImg6Selected] = useState(false);
     const [selectedImgCount, setSelectedImgCount] = useState(0);
     const [chooseImages, setChooseImages] = useState([])
-  
+    const [finalImage, setFinalImage] = useState(false);
+    const [qrUri, setQrUri] = useState(null);
     
     const toggleImageSelection = (imageIndex) => {
         if (chooseImages.includes(imageIndex)) {
@@ -44,6 +46,7 @@ const SelectModal = ({ selectModalVisible, imgs, currentImageIndex }) => {
           <View style={{marginTop:100,height:'100%', width:'100%', flexDirection:'column'}}>
             <ViewShot ref={viewRef}
             options={{ fileName: 'shared', format: 'png', quality: 1 }} style={{marginLeft:178, width: 473, height: 700}}>
+                <Image source={{uri: qrUri}} style={{marginLeft:10, marginTop:10, width: 80, height:80, position: 'absolute', zIndex: 2}} resizeMode='contain'/>
                 <Image source={finalImages[currentImageIndex]}  //프레임
                 style={{height: 700, marginLeft: -157,position: 'absolute', zIndex: 1}}
                 resizeMode='contain'/> 
@@ -111,20 +114,71 @@ const SelectModal = ({ selectModalVisible, imgs, currentImageIndex }) => {
             </View>
             <View style={{ alignItems:'center'}}>
             {chooseImages.length < 4?null:<TouchableOpacity style={{height: 100, width:200, alignItems: 'center'}}
-               onPress={async () => {
-                              const uri = await viewRef.current
-                                .capture()
-                                .catch((err) => console.log(err));
-                              await Sharing.shareAsync(
-                                Platform.OS === 'ios' ? `file://${uri}` : uri,
-                                {
-                                  mimeType: 'image/png',
-                                  dialogTitle: '공유하기',
-                                  UTI: 'image/png',
-                                },
-                              );}
+               onPress={
+                // async () => {
+                //   const uri = await viewRef.current
+                //     .capture()
+                //     .catch((err) => console.log(err));
+                //   await Sharing.shareAsync(
+                //     Platform.OS === 'ios' ? `file://${uri}` : uri,
+                //     {
+                //       mimeType: 'image/png',
+                //       dialogTitle: '공유하기',
+                //       UTI: 'image/png',
+                //     },
+                //   );}
+                async () => {
+                  const picData = new FormData()
+                  const getCurrentDateTime = () => {
+                    const now = new Date();
+                    const year = now.getFullYear().toString().substr(-2); // 년도에서 뒤의 두 자리만 가져옴
+                    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // 월을 두 자리로 표시하고 1을 더합니다.
+                    const day = now.getDate().toString().padStart(2, '0'); // 일을 두 자리로 표시합니다.
+                    const hours = now.getHours().toString().padStart(2, '0');
+                    const minutes = now.getMinutes().toString().padStart(2, '0');
+                    const seconds = now.getSeconds().toString().padStart(2, '0');
+                    const dateTimeString = `${seconds}${day}${minutes}${seconds }${hours}${month}`;
+                    return dateTimeString;
+                  };
+                  const uri = await viewRef.current
+                    .capture()
+                    .catch((err) => console.log(err));
+                  picData.append('image', {
+                    uri: uri,
+                    type: 'image/png', // 업로드하는 이미지 포맷에 따라 변경
+                    name: getCurrentDateTime(), // 업로드되는 파일 이름
+                  });
+                  try {
+                    const response = await axios.post('http://211.107.196.27:7878/hello', picData, {
+                      responseType: "blob",
+                    });
+                    if (response.status === 200){
+                      const imageBlob = new Blob([response.data], { type: 'image/png' });
+                      const imageUrl = URL.createObjectURL(imageBlob);
+                      console.log(imageUrl)
+                      setQrUri(imageUrl);
+                      const uri = await viewRef.current
+                    .capture()
+                    .catch((err) => console.log(err));
+                    await Sharing.shareAsync(
+                      Platform.OS === 'ios' ? `file://${uri}` : uri,
+                      {
+                        mimeType: 'image/png',
+                        dialogTitle: '공유하기',
+                        UTI: 'image/png',
+                      },
+                    );
+                    } else {
+                      console.error('Failed to fetch image');
+                    }
+                  } catch (error) {
+                    console.error('Error uploading image:', error);
+                  }
+                }
                 }>
-                <Image source={completeButton}  style={{height:100}} resizeMode='contain'/>
+                <Image source={completeButton} style={{height:100}} resizeMode='contain'/>
+                 
+                
               </TouchableOpacity>}
             </View>
           </View>
