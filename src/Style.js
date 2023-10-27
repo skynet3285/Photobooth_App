@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         width: 543,
         height: 723,
         position: 'absolute', zIndex: 1,
-        marginTop: 89
+       
     },
     modalView:{
         height: '100%',

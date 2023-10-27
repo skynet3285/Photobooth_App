@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, View, Text, Image, TouchableOpacity } from 'react-native';
 import { leftDirection, rightDirection, completeButton, images } from '../utils/imageUrls';
+import { homeButton } from '../utils/imageUrls';
 
-const FrameModal = ({ frameModalVisible, frameToSelect, currentImageIndex, setCurrentImageIndex }) => {
+const FrameModal = ({ frameModalVisible, frameToSelect, currentImageIndex, setCurrentImageIndex, goHome }) => {
     
     return(
         <Modal visible={frameModalVisible}>
             <View style={{marginTop:'10%',height:'90%', width:'100%', flexDirection: 'column', alignItems:'center'}}>
+            <TouchableOpacity
+                    style={{marginTop:25, position: 'absolute', zIndex: 4}} onPress={()=>goHome()}>
+                    <Image source={homeButton} style={{width:70, height:70,marginLeft:-390}} resizeMode='contain'/>
+                </TouchableOpacity>
                 <View style={{flexDirection:'row', flex:0.8}}>
                 <TouchableOpacity style={{flex:0.25}}
                 onPress={() => {setCurrentImageIndex((prevIndex) =>
