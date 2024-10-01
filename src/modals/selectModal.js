@@ -11,6 +11,7 @@ import {
 } from "../utils/imageUrls";
 import { homeButton } from "../utils/imageUrls";
 import styles from "../Style";
+import * as MediaLibrary from "expo-media-library";
 
 function getCurrentDateTime() {
   const now = new Date();
@@ -398,10 +399,13 @@ const SelectModal = ({
                       type: "image/png",
                       name: pngFileName,
                     });
+                    MediaLibrary.saveToLibraryAsync(uri);
 
                     console.log(pngFileName);
+                    console.log("API_URL: " + process.env.API_URL);
+
                     const uploadResponse = await axios.post(
-                      "API_URL" + pngFileName,
+                      `${process.env.API_URL}/upload/${pngFileName}`,
                       picData,
                       {
                         headers: {
@@ -409,7 +413,7 @@ const SelectModal = ({
                         },
                       }
                     );
-                    setQrUrl("DOWNLOAD_URL" + pngFileName);
+                    setQrUrl(`${process.env.API_URL}/load/png/${pngFileName}`);
 
                     console.log(
                       "File uploaded successfully:",

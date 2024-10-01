@@ -5,6 +5,7 @@ import CameraModal from "./src/modals/cameraModal";
 import FrameModal from "./src/modals/frameModal";
 import SelectModal from "./src/modals/selectModal";
 import FinalModal from "./src/modals/finalModal";
+import * as MediaLibrary from "expo-media-library";
 
 export default function App() {
   const [imgs, setImgs] = useState([]);
@@ -15,6 +16,18 @@ export default function App() {
   const [frameModalVisible, setFrameModalVisible] = useState(false); // 3 modal
   const [selectModalVisible, setSelectModalVisible] = useState(false); // 4 modal
   const [finalModalVisible, setFinalModalVisible] = useState(false); // 5 modal
+
+  // Request permission to access the media library
+  useEffect(() => {
+    async function getPermission() {
+      const permissionResponse = await MediaLibrary.requestPermissionsAsync();
+      if (permissionResponse.status !== "granted") {
+        console.log("Permission to access the media library is required!");
+      }
+    }
+
+    getPermission();
+  }, []);
 
   const startToCamera = () => {
     setStartModalVisible(false);
