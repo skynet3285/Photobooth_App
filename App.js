@@ -57,6 +57,7 @@ export default function App() {
     setSelectModalVisible(false);
     setStartModalVisible(true);
   };
+
   return (
     <View>
       <StartModal

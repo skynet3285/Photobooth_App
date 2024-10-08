@@ -17,6 +17,7 @@ const CameraModal = ({
   setImgCount,
 }) => {
   const shotCountSecond = 3;
+  const MaxShotAvailableImages = 6;
 
   const viewRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState(false);
@@ -90,7 +91,7 @@ const CameraModal = ({
   }, [isActiveCount, shotCount]);
 
   useEffect(() => {
-    if (imgCount == 6) {
+    if (imgCount == MaxShotAvailableImages) {
       cameraToFrame();
     }
   }, [imgCount]);
@@ -222,7 +223,7 @@ const CameraModal = ({
                 color: "white",
               }}
             >
-              {imgCount} / 6
+              {imgCount} / {MaxShotAvailableImages}
             </Text>
           </View>
         </View>

@@ -32,6 +32,8 @@ const SelectModal = ({
   selectToFinal,
   goHome,
 }) => {
+  const MaxSelectAvailableImages = 4;
+
   const viewRef = useRef();
   const [img1Selected, setIsImg1Selected] = useState(false);
   const [img2Selected, setIsImg2Selected] = useState(false);
@@ -43,9 +45,6 @@ const SelectModal = ({
   const [chooseImages, setChooseImages] = useState([]);
   const [qrUrl, setQrUrl] = useState(null);
   const [isVisibleButton, setIsVisibleButton] = useState(true);
-
-  const useSleep = (delay) =>
-    new Promise((resolve) => setTimeout(resolve, delay));
 
   const toggleImageSelection = (imageIndex) => {
     if (chooseImages.includes(imageIndex)) {
@@ -61,6 +60,7 @@ const SelectModal = ({
       }
     }
   };
+
   const home = () => {
     setIsImg1Selected(false);
     setIsImg2Selected(false);
@@ -376,7 +376,7 @@ const SelectModal = ({
         )}
         {isVisibleButton ? (
           <View style={{ alignItems: "center" }}>
-            {chooseImages.length < 4 ? null : (
+            {chooseImages.length < MaxSelectAvailableImages ? null : (
               <TouchableOpacity
                 style={{ height: 100, width: 200, alignItems: "center" }}
                 onPress={async () => {
